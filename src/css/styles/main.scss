@@ -1,0 +1,74 @@
+@use '/src/css/variables.scss';
+@use './body.scss';
+@use './header.scss';
+@use './buttons.scss';
+
+main {
+    flex: 1;
+}
+
+.label {
+    text-align: center;
+    font-size: 5rem;
+    font-weight: normal;
+    font-family: var(--font-secondary);
+    margin-top: 50px;
+}
+
+.feedback-area {
+    margin-top: 70px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10rem;
+}
+
+.stars-container {
+    display: grid;
+    grid-template-columns: repeat(5, 10rem);
+    gap: 2rem;
+}
+
+.feedback-interaction-area {
+    width: 35rem;
+    text-align: left;
+    margin-bottom: 15rem;
+}
+
+.feedback-interaction-area.is-text-active .feedback-form {
+    opacity: 0.8;
+    max-height: 35rem;
+    margin-top: 10px;
+    padding: 1.2rem;
+}
+
+.feedback-form {
+    color: var(--text-secondary);
+    background-color: var(--bg-feedback-form);
+
+    width: 100%;
+    box-sizing: content-box;
+    resize: none;
+    font-size: 2.5rem;
+    font-family: 'Century gothic';
+    border-radius: 0.8rem;
+    padding: 1rem;
+    line-height: 1.2;
+
+    max-height: 25rem;
+    overflow-y: auto;
+
+    transition: all 0.5s ease;
+
+    max-height: 0;
+    opacity: 0;
+
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.feedback-form::placeholder {
+    color: var(--placeholder-color);
+    opacity: 1;
+}

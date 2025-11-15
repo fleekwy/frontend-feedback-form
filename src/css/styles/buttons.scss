@@ -1,0 +1,105 @@
+.lang-btn {
+    background-color: var(--bg-lang-buttons);
+    color: var(--text-secondary);
+    padding: 1.2rem 2.4rem;
+    border-radius: 0.8rem;
+    font-size: 2rem;
+    font-family: var(--lang-btn-font);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border: none;
+}
+
+.lang-btn:hover {
+    background-color: var(--hover-lang-btn-color);
+    transform: translateY(-0.2rem);
+}
+
+.lang-btn:active {
+    transform: translateY(0);
+}
+
+.submit-btn {
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    padding: 1.2rem 2.4rem;
+    border-radius: 0.8rem;
+    font-size: 2rem;
+    font-family: var(--font-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    box-shadow: none;
+    border: none;
+}
+
+.submit-btn:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+}
+
+.submit-btn:hover {
+    transform: translateY(-0.3rem);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.star {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0 0;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease-in-out,
+        opacity 0.2s ease-in-out;
+    padding: 0 0.5rem;
+
+    width: 8rem;
+    height: 8rem;
+    background-color: var(--bg--stars);
+
+    mask-image: url('/src/images/svg/star.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+
+    box-shadow: 0 0 0 1rem black;
+}
+
+.hover-feedback-low {
+    background-color: var(--feedback-low);
+    opacity: var(--star-opacity-dim);
+}
+
+.hover-feedback-normal {
+    background-color: var(--feedback-normal);
+    opacity: var(--star-opacity-dim);
+}
+
+.hover-feedback-high {
+    background-color: var(--feedback-high);
+    opacity: var(--star-opacity-dim);
+}
+
+.active-feedback-low {
+    background-color: var(--feedback-low);
+    opacity: var(--star-opacity-bright);
+}
+
+.active-feedback-normal {
+    background-color: var(--feedback-normal);
+    opacity: var(--star-opacity-bright);
+}
+
+.active-feedback-high {
+    background-color: var(--feedback-high);
+    opacity: var(--star-opacity-bright);
+}
+
+.feedback-interaction-area.is-text-active .submit-btn {
+    transform: translateY(10rem);
+}

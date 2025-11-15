@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="review site" />
+        <meta name="author" content="Даниил Кондратюк" />
+
+        <title>Отзывы - fleekwy</title>
+
+        <link rel="icon" id="favicon" href="./public/images/icons/favicon_active.ico" />
+
+        <script type="module" src="./src/ts/main.ts"></script>
+    </head>
+
+    <body>
+        <header class="main-header" id="main-header">
+            <span class="real-time-clock" id="real-time-clock"></span>
+            <section class="switch-lang">
+                <button class="lang-btn" id="lang-btn-ru" data-lang="ru">RU</button>
+                <button class="lang-btn" id="lang-btn-zh" data-lang="zh">ZH</button>
+            </section>
+        </header>
+
+        <main>
+            <h2 class="label">Поставь отзыв!</h2>
+
+            <section class="feedback-area">
+                <div class="stars-container" id="stars-container">
+                    <button class="star" data-rating="1"></button>
+                    <button class="star" data-rating="2"></button>
+                    <button class="star" data-rating="3"></button>
+                    <button class="star" data-rating="4"></button>
+                    <button class="star" data-rating="5"></button>
+                </div>
+
+                <form class="feedback-interaction-area" id="feedback-interaction-area">
+                    <textarea
+                        class="feedback-form"
+                        name="feedback-form"
+                        id="feedback-form"
+                        rows="4"
+                        placeholder="Напишите текст отзыва"
+                    ></textarea>
+
+                    <button type="submit" class="submit-btn" id="submit-btn" disabled>
+                        Отправить отзыв
+                    </button>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,30 @@
+html {
+    font-size: 62.5%;
+}
+
+@font-face {
+    font-family: 'Unbounded';
+    src: url('/src/fonts/Unbounded.ttf');
+}
+
+@font-face {
+    font-family: 'BBHSansBartle';
+    src: url('/src/fonts/BBHSansBartle.ttf');
+}
+
+* {
+    font-family: var(--font-primary);
+}
+
+body {
+    background-color: var(--bg-primary);
+    margin: 0;
+    padding: 0;
+    color: var(--text-primary);
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: normal;
+}

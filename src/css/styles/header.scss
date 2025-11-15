@@ -1,0 +1,35 @@
+.main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bg-secondary);
+    margin: 8px;
+    font-size: 3rem;
+    padding: 3.5rem;
+    border-radius: 0.6rem;
+    text-align: left;
+    transition: background-color 0.3s ease;
+}
+
+.main-header-clicked {
+    background-color: var(--header-click-color);
+}
+
+.main-header-scrolled {
+    background-color: var(--header-scrole-color);
+}
+
+.main-header-spaced {
+    background-color: var(--header-space-color);
+}
+
+.real-time-clock {
+    color: var(--text-secondary);
+}
+
+.switch-lang {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
