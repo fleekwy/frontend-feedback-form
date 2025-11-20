@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const starsContainer: HTMLElement | null = document.getElementById('stars-container');
 const feedbackArea: HTMLElement | null = document.getElementById('feedback-interaction-area');
 const submitButton: HTMLElement | null = document.getElementById('submit-btn');
@@ -7,6 +9,7 @@ const RATING_STORAGE_KEY = 'StarRating';
 const TEXT_STORAGE_KEY = 'FeedbackText';
 const CLOSE_TABS_KEY = 'CloseAllTabsSignal';
 let currentRating: number = 0;
+let currentFeedback: string | null = '';
 
 function isHTMLElement(value: unknown): value is HTMLElement {
     return value instanceof HTMLElement;
@@ -63,6 +66,7 @@ function updateRatingState(rating: number): void {
     let isTextEntered = false;
     if (isHTMLTextAreaElement(feedbackForm)) {
         isTextEntered = feedbackForm.value.trim() !== '';
+        currentFeedback = feedbackForm.value;
     }
     if (isHTMLButtonElement(submitButton)) {
         if (rating >= 4 || isTextEntered) {
@@ -70,6 +74,7 @@ function updateRatingState(rating: number): void {
             if (rating >= 4 && isHTMLTextAreaElement(feedbackForm)) {
                 localStorage.removeItem(TEXT_STORAGE_KEY);
                 feedbackForm.value = '';
+                currentFeedback = null;
             }
         } else {
             submitButton.disabled = true;
@@ -79,9 +84,9 @@ function updateRatingState(rating: number): void {
 
 function InitializePage(): void {
     if (isHTMLTextAreaElement(feedbackForm)) {
-        const savedText = localStorage.getItem(TEXT_STORAGE_KEY);
-        if (savedText) {
-            feedbackForm.value = savedText;
+        currentFeedback = localStorage.getItem(TEXT_STORAGE_KEY);
+        if (currentFeedback) {
+            feedbackForm.value = currentFeedback;
         }
 
         const savedRatingRaw = localStorage.getItem(RATING_STORAGE_KEY);
@@ -98,6 +103,22 @@ function InitializePage(): void {
         } else {
             updateRatingState(0);
         }
+    }
+}
+
+async function sendFeedback(ratingValue: number, messageValue: string | null) {
+    const dataToSend = {
+        rating: ratingValue,
+        feedback_text: messageValue,
+    };
+
+    try {
+        const response = await axios.post('http://localhost:3000/api', dataToSend);
+        console.log('Успешно отправлено:', response.data);
+        return response;
+    } catch (error) {
+        console.error('Ошибка при отправке:', error);
+        throw error;
     }
 }
 
@@ -185,24 +206,30 @@ if (isHTMLTextAreaElement(feedbackForm)) {
 }
 
 if (isHTMLFormElement(feedbackArea)) {
-    feedbackArea.addEventListener('submit', (event: SubmitEvent) => {
+    feedbackArea.addEventListener('submit', async (event: SubmitEvent) => {
         event.preventDefault();
 
-        localStorage.removeItem(TEXT_STORAGE_KEY);
-        if (isHTMLTextAreaElement(feedbackForm)) {
-            feedbackForm.value = '';
-            feedbackForm.style.height = 'auto';
+        try {
+            await sendFeedback(currentRating, currentFeedback);
+
+            localStorage.removeItem(TEXT_STORAGE_KEY);
+            if (isHTMLTextAreaElement(feedbackForm)) {
+                feedbackForm.value = '';
+                feedbackForm.style.height = 'auto';
+            }
+            localStorage.removeItem(RATING_STORAGE_KEY);
+            updateRatingState(0);
+
+            console.log('Рейтинг и текст сброшены и удалены из хранилища.');
+
+            localStorage.setItem(CLOSE_TABS_KEY, 'Y');
+            setTimeout(() => {
+                localStorage.removeItem(CLOSE_TABS_KEY);
+                window.close();
+            }, 200);
+        } catch (error) {
+            console.error('Не удалось отправить отзыв:', error);
         }
-        localStorage.removeItem(RATING_STORAGE_KEY);
-        updateRatingState(0);
-
-        console.log('Рейтинг и текст сброшены и удалены из хранилища.');
-
-        localStorage.setItem(CLOSE_TABS_KEY, 'Y');
-        setTimeout(() => {
-            localStorage.removeItem(CLOSE_TABS_KEY);
-            window.close();
-        }, 200);
     });
 }
 

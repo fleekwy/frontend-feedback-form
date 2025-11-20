@@ -11,7 +11,7 @@ function isHTMLLinkElement(value: unknown): value is HTMLLinkElement {
 
 if (isHTMLLinkElement(favicon)) {
     const originalFavicon = favicon.href;
-    const inactiveFavicon: string = '/public/images/icons/favicon_inactive.ico';
+    const inactiveFavicon: string = '/images/icons/favicon_inactive.ico';
 
     document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'hidden') {
