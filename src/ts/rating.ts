@@ -113,7 +113,7 @@ async function sendFeedback(ratingValue: number, messageValue: string | null) {
     };
 
     try {
-        const response = await axios.post('http://localhost:3000/api', dataToSend);
+        const response = await axios.post('/api', dataToSend);
         console.log('Успешно отправлено:', response.data);
         return response;
     } catch (error) {
@@ -206,11 +206,11 @@ if (isHTMLTextAreaElement(feedbackForm)) {
 }
 
 if (isHTMLFormElement(feedbackArea)) {
-    feedbackArea.addEventListener('submit', async (event: SubmitEvent) => {
+    feedbackArea.addEventListener('submit', (event: SubmitEvent) => {
         event.preventDefault();
 
         try {
-            await sendFeedback(currentRating, currentFeedback);
+            sendFeedback(currentRating, currentFeedback);
 
             localStorage.removeItem(TEXT_STORAGE_KEY);
             if (isHTMLTextAreaElement(feedbackForm)) {

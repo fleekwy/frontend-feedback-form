@@ -1,0 +1,13 @@
+services:
+    nginx:
+        container_name: fs-form-container
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        networks:
+            - feedback-system-network
+
+networks:
+    feedback-system-network:
+        external: true
