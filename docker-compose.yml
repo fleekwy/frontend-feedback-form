@@ -1,6 +1,7 @@
 services:
     nginx:
         container_name: fs-form-container
+        image: fs-form:0.0.1
         build:
             context: .
             dockerfile: Dockerfile
