@@ -22,6 +22,17 @@ function getSavedLanguage(): Language {
     return 'ru';
 }
 
+const updateLangButtonsState = (lang: Language): void => {
+    if (ruButton) {
+        if (lang === 'ru') ruButton.classList.add('active');
+        else ruButton.classList.remove('active');
+    }
+    if (zhButton) {
+        if (lang === 'zh') zhButton.classList.add('active');
+        else zhButton.classList.remove('active');
+    }
+};
+
 if (clockElement) {
     const locales = {
         ru: 'ru-RU',
@@ -29,6 +40,7 @@ if (clockElement) {
     };
 
     let currentLang: Language = getSavedLanguage();
+    updateLangButtonsState(currentLang);
     let lastDisplayedDate: Date = new Date();
 
     const formatClockString = (date: Date): string => {
@@ -81,6 +93,8 @@ if (clockElement) {
                 currentLang = newLang;
                 localStorage.setItem(LANG_STORAGE_KEY, currentLang);
                 clockElement.textContent = formatClockString(lastDisplayedDate);
+
+                updateLangButtonsState(currentLang);
             }
         }
     };
@@ -93,28 +107,6 @@ if (clockElement) {
         zhButton.onclick = changeLang;
     }
 
-    // if (ruButton) {
-    //     ruButton.addEventListener('click', (event: MouseEvent) => {
-    //         event.stopPropagation();
-    //         if (currentLang !== 'ru') {
-    //             currentLang = 'ru';
-    //             localStorage.setItem(LANG_STORAGE_KEY, currentLang);
-    //             clockElement.textContent = formatClockString(lastDisplayedDate);
-    //         }
-    //     });
-    // }
-
-    // if (zhButton) {
-    //     zhButton.addEventListener('click', (event: MouseEvent) => {
-    //         event.stopPropagation();
-    //         if (currentLang !== 'zh') {
-    //             currentLang = 'zh';
-    //             localStorage.setItem(LANG_STORAGE_KEY, currentLang);
-    //             clockElement.textContent = formatClockString(lastDisplayedDate);
-    //         }
-    //     });
-    // }
-
     window.addEventListener('storage', (event: StorageEvent) => {
         if (event.key === LANG_STORAGE_KEY) {
             console.log('Получено событие синхронизации языка из другой вкладки!');
@@ -123,6 +115,8 @@ if (clockElement) {
             if (isLanguage(newLang) && newLang !== currentLang) {
                 currentLang = newLang;
                 clockElement.textContent = formatClockString(lastDisplayedDate);
+
+                updateLangButtonsState(currentLang);
             }
         }
     });
