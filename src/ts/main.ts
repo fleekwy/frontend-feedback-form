@@ -11,7 +11,7 @@ function isHTMLLinkElement(value: unknown): value is HTMLLinkElement {
 
 if (isHTMLLinkElement(favicon)) {
     const originalFavicon = favicon.href;
-    const inactiveFavicon: string = '/images/icons/favicon_inactive.ico';
+    const inactiveFavicon: string = './images/icons/favicon-inactive.ico';
 
     document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'hidden') {
@@ -22,13 +22,13 @@ if (isHTMLLinkElement(favicon)) {
     });
 }
 
-const originalTitle: string = document.title;
-const inactiveTitle: string = 'Хочешь печеньку? 🍪';
+// const originalTitle: string = document.title;
+// const inactiveTitle: string = 'Хочешь печеньку? 🍪';
 
-document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') {
-        document.title = inactiveTitle;
-    } else {
-        document.title = originalTitle;
-    }
-});
+// document.addEventListener('visibilitychange', () => {
+//     if (document.visibilityState === 'hidden') {
+//         document.title = inactiveTitle;
+//     } else {
+//         document.title = originalTitle;
+//     }
+// });
