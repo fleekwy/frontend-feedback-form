@@ -5,11 +5,18 @@ const feedbackArea: HTMLElement | null = document.getElementById('feedback-inter
 const submitButton: HTMLElement | null = document.getElementById('submit-btn');
 const feedbackForm: HTMLElement | null = document.getElementById('feedback-form');
 
+const modalOverlay: HTMLElement | null = document.getElementById('redirect-modal');
+const modalTimerSpan: HTMLElement | null = document.getElementById('redirect-timer');
+const modalOkBtn: HTMLElement | null = document.getElementById('modal-btn-ok');
+const modalCancelBtn: HTMLElement | null = document.getElementById('modal-btn-cancel');
+
 const RATING_STORAGE_KEY = 'StarRating';
 const TEXT_STORAGE_KEY = 'FeedbackText';
 const CLOSE_TABS_KEY = 'CloseAllTabsSignal';
 let currentRating: number = 0;
 let currentFeedback: string | null = '';
+
+const BASE_URL = import.meta.env.VITE_TARGET_URL;
 
 function isHTMLElement(value: unknown): value is HTMLElement {
     return value instanceof HTMLElement;
@@ -74,7 +81,7 @@ function updateRatingState(rating: number): void {
             if (rating >= 4 && isHTMLTextAreaElement(feedbackForm)) {
                 localStorage.removeItem(TEXT_STORAGE_KEY);
                 feedbackForm.value = '';
-                currentFeedback = null;
+                currentFeedback = '';
             }
         } else {
             submitButton.disabled = true;
@@ -84,7 +91,7 @@ function updateRatingState(rating: number): void {
 
 function InitializePage(): void {
     if (isHTMLTextAreaElement(feedbackForm)) {
-        currentFeedback = localStorage.getItem(TEXT_STORAGE_KEY);
+        currentFeedback = localStorage.getItem(TEXT_STORAGE_KEY) || '';
         if (currentFeedback) {
             feedbackForm.value = currentFeedback;
         }
@@ -107,19 +114,73 @@ function InitializePage(): void {
 }
 
 async function sendFeedback(ratingValue: number, messageValue: string | null) {
+    const safeMessageValue = messageValue === null ? '' : messageValue;
     const dataToSend = {
         rating: ratingValue,
-        feedback_text: messageValue,
+        feedback_text: safeMessageValue,
     };
 
     try {
-        const response = await axios.post('http://localhost:3000/api', dataToSend);
+        const response = await axios.post(`${BASE_URL}/api`, dataToSend);
         console.log('Успешно отправлено:', response.data);
         return response;
     } catch (error) {
-        console.error('Ошибка при отправке:', error);
+        if (axios.isAxiosError(error)) {
+            if (error.response) {
+                console.error('Ошибка сервера (400/500):', error.response.data);
+                console.error('Статус:', error.response.status);
+            } else if (error.request) {
+                console.error('Нет ответа от сервера:', error.request);
+            } else {
+                console.error('Ошибка настройки запроса:', error.message);
+            }
+        } else {
+            console.error('Неизвестная ошибка:', error);
+        }
         throw error;
     }
+}
+
+let redirectInterval: ReturnType<typeof setInterval>;
+
+function startRedirectProcess() {
+    if (!modalOverlay || !modalTimerSpan) return;
+
+    modalOverlay.classList.add('open');
+
+    let secondsLeft = 10;
+    modalTimerSpan.textContent = secondsLeft.toString();
+
+    redirectInterval = setInterval(() => {
+        secondsLeft--;
+        modalTimerSpan.textContent = secondsLeft.toString();
+
+        if (secondsLeft <= 0) {
+            performRedirect();
+        }
+    }, 1000);
+}
+
+function performRedirect() {
+    clearInterval(redirectInterval);
+    window.location.href = BASE_URL;
+}
+
+function cancelRedirect() {
+    clearInterval(redirectInterval);
+    if (modalOverlay) {
+        modalOverlay.classList.remove('open');
+    }
+    console.log('Закрытие вкладки по кнопке Отмена...');
+    window.close();
+}
+
+if (modalOkBtn) {
+    modalOkBtn.addEventListener('click', performRedirect);
+}
+
+if (modalCancelBtn) {
+    modalCancelBtn.addEventListener('click', cancelRedirect);
 }
 
 if (isHTMLElement(starsContainer)) {
@@ -225,10 +286,11 @@ if (isHTMLFormElement(feedbackArea)) {
             localStorage.setItem(CLOSE_TABS_KEY, 'Y');
             setTimeout(() => {
                 localStorage.removeItem(CLOSE_TABS_KEY);
-                window.close();
             }, 200);
+
+            startRedirectProcess();
         } catch (error) {
-            console.error('Не удалось отправить отзыв:', error);
+            console.error('Не удалось отправить отзыв. Процесс редиректа отменен.', error);
         }
     });
 }

@@ -16,8 +16,20 @@
     transform: translateY(-0.2rem);
 }
 
-.lang-btn:active {
-    transform: translateY(0);
+.lang-btn.active {
+    background-color: var(--feedback-normal);
+    color: var(--bg-secondary);
+    transform: translateY(-0.2rem);
+    box-shadow: 0 0 10px rgba(239, 193, 64, 0.5);
+}
+
+.ok-btn:hover {
+    background-color: var(--feedback-high);
+    color: var(--bg-secondary);
+}
+
+.cancel-btn:hover {
+    background-color: var(--feedback-low);
 }
 
 .submit-btn {
