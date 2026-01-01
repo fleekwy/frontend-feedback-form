@@ -11,13 +11,6 @@
     border: none;
 }
 
-#modal-btn-ok:hover {
-    background-color: var(--feedback-high);
-    color: var(--bg-secondary);
-    opacity: 1;
-    transform: translateY(-0.2rem);
-}
-
 .lang-btn:hover {
     background-color: var(--hover-lang-btn-color);
     transform: translateY(-0.2rem);
@@ -30,12 +23,13 @@
     box-shadow: 0 0 10px rgba(239, 193, 64, 0.5);
 }
 
-.cancel-btn {
-    background-color: var(--feedback-low);
+.ok-btn:hover {
+    background-color: var(--feedback-high);
+    color: var(--bg-secondary);
 }
 
 .cancel-btn:hover {
-    background-color: #d64545;
+    background-color: var(--feedback-low);
 }
 
 .submit-btn {

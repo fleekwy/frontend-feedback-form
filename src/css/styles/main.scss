@@ -99,10 +99,19 @@ main {
     background-color: var(--bg-secondary);
     padding: 3rem;
     border-radius: 1rem;
-    text-align: center;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     max-width: 50rem;
     border: 1px solid var(--header-space-color);
+
+    width: 55rem;
+    height: 20rem;
+    max-width: 90vw;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
 }
 
 .modal-text {
@@ -116,4 +125,11 @@ main {
     display: flex;
     justify-content: center;
     gap: 2rem;
+}
+
+#redirect-timer {
+    display: inline-block;
+    min-width: 3rem;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
 }
