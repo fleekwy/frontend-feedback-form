@@ -16,7 +16,7 @@ const CLOSE_TABS_KEY = 'CloseAllTabsSignal';
 let currentRating: number = 0;
 let currentFeedback: string | null = '';
 
-const BASE_URL = import.meta.env.VITE_TARGET_URL;
+const BASE_URL = import.meta.env.VITE_TARGET_URL || '/';
 
 function isHTMLElement(value: unknown): value is HTMLElement {
     return value instanceof HTMLElement;
@@ -121,7 +121,7 @@ async function sendFeedback(ratingValue: number, messageValue: string | null) {
     };
 
     try {
-        const response = await axios.post(`${BASE_URL}/api`, dataToSend);
+        const response = await axios.post(`${BASE_URL}api`, dataToSend);
         console.log('Успешно отправлено:', response.data);
         return response;
     } catch (error) {
